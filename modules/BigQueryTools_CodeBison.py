@@ -112,9 +112,7 @@ class QueryBigQueryTool(BaseBigQueryTool, BaseTool):
             rows = json.loads(rows)
             if rows is None:
                 return "[]"
-            results = []
-            for row in rows:
-                results.append(row)
+            results = list(rows)
             return f"{results}"
         except Exception as e:
             return f"[Error]{str(e)}"
@@ -154,9 +152,7 @@ WHERE
 """
         result_set = []
         for table in tables:
-            table_name = (
-                table if not "." in table else table.split(".")[-1]  # noqa: E713
-            )
+            table_name = table if "." not in table else table.split(".")[-1]
             table_name = table_name.replace("'", "").replace("`", "")
             job = self.db.query(SQL_STATEMENT.format(self.dataset, table_name))
             results = job.result(20)
@@ -178,9 +174,7 @@ class ListBigQueryTool(BaseBigQueryTool, BaseTool):
     def _run(self, tool_input: str = "") -> str:
         """Get the schema for a specific table."""
         tables = self.db.list_tables(self.dataset)
-        return ", ".join(
-            ["{}.{}".format(self.dataset, table.table_id) for table in tables]
-        )
+        return ", ".join([f"{self.dataset}.{table.table_id}" for table in tables])
 
     async def _arun(self, tool_input: str = "") -> str:
         raise NotImplementedError("ListTablesSqlDbTool does not support async")
@@ -205,10 +199,7 @@ class QueryCheckerTool(BaseBigQueryTool, BaseTool):
 
         validator = BigQueryValidator()
         valid_sql, dict = validator.validate_query(query)
-        if valid_sql:
-            return "the SQL statment syntax is correct."
-        else:
-            return f"{dict}"
+        return "the SQL statment syntax is correct." if valid_sql else f"{dict}"
 
     async def _arun(self, query: str) -> str:
         return await self.llm_chain.apredict(query=query, dialect=self.db.dialect)

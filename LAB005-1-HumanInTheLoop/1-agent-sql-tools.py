@@ -107,8 +107,7 @@ class BigQueryToolkit(BaseToolkit):
 
 
 def get_input() -> str:
-    text = input('Input your text. Press Enter to end.\n')
-    return text
+    return input('Input your text. Press Enter to end.\n')
 
 
 def predict(query: str) -> str:

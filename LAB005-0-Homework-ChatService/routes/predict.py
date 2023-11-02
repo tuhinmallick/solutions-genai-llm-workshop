@@ -27,11 +27,9 @@ def do_predict(query: str) -> str:
     )
 
     if response.status_code == 200:
-        result = response.json()
-        return result
-    else:
-        print("Error:", response.text)
-        raise Exception(response.text)
+        return response.json()
+    print("Error:", response.text)
+    raise Exception(response.text)
 
 
 @predict_bp.route("/predict", methods=["POST"])
@@ -43,7 +41,7 @@ def predict():
     print(f"***** model={model}")
     try:
         print("***** importlib.import_module")
-        module = importlib.import_module("models." + model)
+        module = importlib.import_module(f"models.{model}")
         print("***** calling predict_fn")
         predict_fn = getattr(module, "predict")
     except ModuleNotFoundError:

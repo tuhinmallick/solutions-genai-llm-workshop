@@ -19,8 +19,7 @@ from langchain.utilities import SerpAPIWrapper
 llm = VertexAI(temperature=0.2)
 
 def get_input() -> str:
-    text = input('Input your text. Press Enter to end.\n')
-    return text
+    return input('Input your text. Press Enter to end.\n')
 
 
 search = SerpAPIWrapper()

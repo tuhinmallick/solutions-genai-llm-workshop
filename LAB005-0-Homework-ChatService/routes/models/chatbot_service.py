@@ -55,8 +55,7 @@ def predict(query: str) -> str:
     print("predict:loading agent executor...")
     agent = AgentExecutor.from_agent_and_tools(agent=a, tools=tools, memory=memory)
     print("predict:running agent executor...")
-    result = agent.run({"input": query})
-    return result
+    return agent.run({"input": query})
 
 
 if __name__ == "__main__":

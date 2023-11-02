@@ -50,6 +50,6 @@ print("Creating Chain...")
 qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
 
 query = "what did he say about protect women rights?"
-print("Sending Question:{}".format(query))
+print(f"Sending Question:{query}")
 result = qa({"query": query})
 print(result["result"])

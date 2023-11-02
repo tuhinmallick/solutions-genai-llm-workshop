@@ -57,8 +57,7 @@ class VertexCodeBisonAI(_VertexAICommon, LLM):
         )
         predictions = response.predictions
         result = predictions[0]["content"]
-        result = result.strip("```sql").strip("```")
-        return result
+        return result.strip("```sql").strip("```")
 
     def _call(
         self,
