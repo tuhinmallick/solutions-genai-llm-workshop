@@ -139,7 +139,7 @@ def verify_llm(query: str) -> str:
     qa = RetrievalQA.from_chain_type(
         llm=llm, chain_type="stuff", retriever=me.as_retriever()
     )
-    print("Sending Question:{}".format(query))
+    print(f"Sending Question:{query}")
     result = qa({"query": query})
     return result["result"]
 

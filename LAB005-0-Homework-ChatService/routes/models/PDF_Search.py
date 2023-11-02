@@ -66,15 +66,13 @@ def create_PDFQA_chain_me_RetrievalQA() -> BaseConversationalRetrievalChain:
     )
 
     retriever = me.as_retriever()
-    doc_chain = RetrievalQA.from_chain_type(
+    return RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
         retriever=retriever,
         return_source_documents=False,
         verbose=True,
     )
-
-    return doc_chain
 
 
 class VIAI_INFO_ME(BaseTool):
@@ -87,16 +85,16 @@ class VIAI_INFO_ME(BaseTool):
     """
 
     def _run(self, query: str) -> str:
-        if query == "":
+        if not query:
             query = "summarize"
         chat_history: List[str] = []
-        print("Running tool:{}".format(query))
+        print(f"Running tool:{query}")
 
         qa = create_PDFQA_chain_me_RetrievalQA()
-        result = qa(
-            {"query": query, "chat_history": chat_history}, return_only_outputs=False
+        return qa(
+            {"query": query, "chat_history": chat_history},
+            return_only_outputs=False,
         )
-        return result
 
     async def _arun(self, query: str) -> str:
         """Use the tool asynchronously."""

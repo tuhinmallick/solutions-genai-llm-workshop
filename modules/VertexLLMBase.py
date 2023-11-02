@@ -89,9 +89,7 @@ class _VertexCommon(BaseModel):
         return self._enforce_stop_words(res.text, stop)
 
     def _enforce_stop_words(self, text: str, stop: Optional[List[str]]) -> str:
-        if stop:
-            return enforce_stop_tokens(text, stop)
-        return text
+        return enforce_stop_tokens(text, stop) if stop else text
 
     @property
     def _llm_type(self) -> str:
@@ -227,8 +225,7 @@ class VertexChat(_VertexChatCommon, BaseChatModel):
         history: List[BaseMessage] = []
         if self.chat:
             for question, answer in self.chat._history:
-                history.append(HumanMessage(content=question))
-                history.append(AIMessage(content=answer))
+                history.extend((HumanMessage(content=question), AIMessage(content=answer)))
         return history
 
     async def _agenerate(

@@ -76,7 +76,7 @@ print("Creating Chain...")
 qa = load_qa_chain(llm=llm, chain_type="map_rerank", return_intermediate_steps=True)
 query = "What did the president say about Justice Breyer"
 docs = retriever.get_relevant_documents(query)
-print("Sending Question:{}".format(query))
+print(f"Sending Question:{query}")
 results = qa({"input_documents": docs, "question": query}, return_only_outputs=True)
 
 for result in results["intermediate_steps"]:

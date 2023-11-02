@@ -22,7 +22,7 @@ from langchain.schema import AgentAction, AgentFinish
 
 class VertexLLMOutputParser(AgentOutputParser):
     def parse(self, llm_output: str) -> Union[AgentAction, AgentFinish]:
-        print("***** VertexLLMOutputParser::parse()::llm_output->{}".format(llm_output))
+        print(f"***** VertexLLMOutputParser::parse()::llm_output->{llm_output}")
         # If we have the final answer
         if "Final Answer:" in llm_output:
             return AgentFinish(
@@ -37,7 +37,7 @@ class VertexLLMOutputParser(AgentOutputParser):
         regex = r"Action\s*\d*\s*:(.*?)\nAction\s*\d*\s*Input:$"
         match = re.search(regex, llm_output, re.DOTALL)
         if match:
-            llm_output = llm_output + "\"\""
+            llm_output += "\"\""
 
         regex = r"Action\s*\d*\s*:(.*?)\nAction\s*\d*\s*Input\s*\d*\s*:[\s]*(.*)"
         match = re.search(regex, llm_output, re.DOTALL)
@@ -54,8 +54,7 @@ def replace_quotes(text):
     import re
 
     pattern = r"\"action_input\": \"(.*?)\"$"
-    match = re.search(pattern=pattern, string=text, flags=re.MULTILINE)
-    if match:
+    if match := re.search(pattern=pattern, string=text, flags=re.MULTILINE):
         # Print the first (and only) captured group
         print(match.group(1))
         for group in match.groups():

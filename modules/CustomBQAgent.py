@@ -46,7 +46,7 @@ class CustomBQAgent(BaseSingleActionAgent):
             Action specifying what tool to use.
         """
         # print(f"***kwargs[input]={kwargs['input']}")
-        if intermediate_steps == []:
+        if not intermediate_steps:
             return AgentAction(tool="list_tables_bigquery", tool_input="", log="")
 
         previous_action, previous_obversation = intermediate_steps[-1]

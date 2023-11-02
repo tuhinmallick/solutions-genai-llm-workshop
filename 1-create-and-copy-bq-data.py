@@ -15,16 +15,16 @@ from google.cloud import bigquery
 
 client = bigquery.Client()
 
-dataset_id = "{}.chicago_crimes".format(client.project)
+dataset_id = f"{client.project}.chicago_crimes"
 
 dataset = bigquery.Dataset(dataset_id)
 
 dataset.location = "US"
 
 dataset = client.create_dataset(dataset, timeout=30)
-print("Created dataset {}.{}".format(client.project, dataset.dataset_id))
+print(f"Created dataset {client.project}.{dataset.dataset_id}")
 
-table_id = "{}.chicago_crimes.crimes".format(client.project)
+table_id = f"{client.project}.chicago_crimes.crimes"
 
 orig_table_id = "bigquery-public-data.chicago_crime.crime"
 

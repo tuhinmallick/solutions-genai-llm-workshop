@@ -83,6 +83,6 @@ qa = RetrievalQA.from_chain_type(
 )
 
 query = "what did he say about protecting women rights"
-print("Sending Question:{}".format(query))
+print(f"Sending Question:{query}")
 result = qa({"query": query})
 print(result["result"])
